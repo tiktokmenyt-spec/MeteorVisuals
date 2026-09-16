@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "meteorvisuals",
+  "version": "${version}",
+  "name": "Meteor Visuals",
+  "description": "Legal client-side dark purple and gold visual effects.",
+  "environment": "client",
+  "entrypoints": { "client": ["dev.meteorvisuals.MeteorVisualsClient"] },
+  "mixins": ["meteorvisuals.mixins.json"],
+  "depends": { "fabricloader": ">=0.16.10", "minecraft": "1.21.4", "java": ">=21", "fabric-api": "*" }
+}

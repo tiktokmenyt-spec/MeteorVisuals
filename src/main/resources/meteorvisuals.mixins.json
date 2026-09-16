@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "dev.meteorvisuals.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": ["ParticleManagerMixin", "BackgroundRendererMixin", "PlayerEntityRendererMixin"],
+  "injectors": { "defaultRequire": 1 }
+}
