@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meteor Visuals — HTML Preview</title>
+  <style>
+    :root { --purple: #8A2BE2; --gold: #FFD700; --bg: #090511; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; overflow: hidden; color: #fff; font: 14px system-ui, sans-serif; background: radial-gradient(circle at 50% 45%, #281044, var(--bg) 70%); }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
+    .panel { position: fixed; top: 24px; left: 24px; width: min(330px, calc(100vw - 48px)); padding: 20px; border: 1px solid #8A2BE288; border-radius: 14px; background: #10091ddd; box-shadow: 0 0 35px #8A2BE244; backdrop-filter: blur(12px); }
+    h1 { margin: 0 0 6px; color: var(--gold); font-size: 22px; letter-spacing: .06em; }
+    p { margin: 0 0 16px; color: #d9cfee; }
+    label { display: flex; align-items: center; gap: 10px; margin: 12px 0; color: #eee; cursor: pointer; }
+    input { accent-color: var(--purple); }
+    button { width: 100%; padding: 10px; border: 1px solid var(--gold); border-radius: 8px; color: #12091c; background: var(--gold); font-weight: 700; cursor: pointer; }
+    button:hover { filter: brightness(1.12); }
+    .badge { position: fixed; top: 24px; right: 24px; padding: 9px 13px; border: 1px solid #FFD70099; border-radius: 999px; color: var(--gold); background: #160b22cc; box-shadow: 0 0 20px #FFD70033; }
+    .credit { position: fixed; right: 24px; bottom: 20px; color: #bdaed2; }
+  </style>
+</head>
+<body>
+  <canvas id="visuals" aria-label="Meteor Visuals HTML preview"></canvas>
+  <section class="panel">
+    <h1>METEOR VISUALS</h1>
+    <p>Интерактивная HTML-презентация визуального стиля — без Minecraft.</p>
+    <label><input id="ring" type="checkbox" checked> Pulse-кольцо</label>
+    <label><input id="trails" type="checkbox" checked> Фиолетово-золотые трейлы</label>
+    <label><input id="mist" type="checkbox" checked> Ночной фиолетовый туман</label>
+    <button id="pulse">Запустить Pulse</button>
+  </section>
+  <div class="badge">HTML PREVIEW · CLIENT VISUALS</div>
+  <div class="credit">Dark Purple #8A2BE2 · Gold #FFD700</div>
+<script>
+const canvas = document.querySelector('#visuals'), ctx = canvas.getContext('2d');
+const ring = document.querySelector('#ring'), trails = document.querySelector('#trails'), mist = document.querySelector('#mist'), pulse = document.querySelector('#pulse');
+let w, h, dpr, t = 0, energy = 0, burst = 0, particles = [];
+function resize() { dpr = devicePixelRatio || 1; w = innerWidth; h = innerHeight; canvas.width = w*dpr; canvas.height = h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+addEventListener('resize', resize); resize();
+for (let i=0;i<140;i++) particles.push({a:Math.random()*Math.PI*2, r:30+Math.random()*250, s:.002+Math.random()*.008, z:Math.random(), life:Math.random()});
+pulse.onclick = () => { energy = 1; burst = 1; };
+function frame(now) {
+  t = now * .001; energy += (0-energy)*.025; burst *= .94;
+  ctx.clearRect(0,0,w,h);
+  if (mist.checked) { let g=ctx.createRadialGradient(w*.58,h*.52,20,w*.58,h*.52,Math.max(w,h)*.7); g.addColorStop(0,'#8A2BE222'); g.addColorStop(1,'#09051100'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h); }
+  const cx=w*.58, cy=h*.53, scale=1+energy*.25+Math.sin(t*2)*.025;
+  if (trails.checked) { ctx.save(); ctx.translate(cx,cy); ctx.rotate(t*.22); ctx.globalCompositeOperation='lighter'; for(let i=0;i<6;i++){ ctx.beginPath(); ctx.arc(0,0,110+i*18+energy*35,-.8+i*.18, .45+i*.18); ctx.strokeStyle=i%2?'#FFD70099':'#8A2BE2aa'; ctx.lineWidth=2+i%3; ctx.shadowBlur=18; ctx.shadowColor=i%2?'#FFD700':'#8A2BE2'; ctx.stroke(); } ctx.restore(); }
+  if (ring.checked) { ctx.save(); ctx.translate(cx,cy); ctx.scale(scale,scale); ctx.rotate(t*.6); ctx.globalCompositeOperation='lighter'; for(let i=0;i<48;i++){ let a=i*Math.PI*2/48, r=82+Math.sin(t*3+i*.4)*5; let x=Math.cos(a)*r,y=Math.sin(a)*r; ctx.fillStyle=i<24?'#8A2BE2':'#FFD700'; ctx.shadowBlur=14; ctx.shadowColor=ctx.fillStyle; ctx.fillRect(x-2,y-2,4,4); } ctx.restore(); }
+  ctx.globalCompositeOperation='lighter'; particles.forEach(p=>{ p.a+=p.s; let r=p.r+burst*90*p.z, x=cx+Math.cos(p.a)*r, y=cy+Math.sin(p.a)*r*.62; ctx.fillStyle=p.z>.5?'#FFD700cc':'#8A2BE2cc'; ctx.shadowBlur=10; ctx.shadowColor=ctx.fillStyle; ctx.fillRect(x,y,2+p.z*2,2+p.z*2); }); ctx.globalCompositeOperation='source-over';
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

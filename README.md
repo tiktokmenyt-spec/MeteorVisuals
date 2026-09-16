@@ -1,5 +1,17 @@
-# Demo mode
+# Meteor Visuals
 
-Press **Right Shift** to open the menu, then press **Start demo**. Demo mode renders a purple-to-gold particle ring around the local player and a recording-friendly banner. It is entirely client-side and is intended for screenshots or OBS footage.
+Клиентский Fabric-мод с тёмно-фиолетовой и золотой визуальной темой.
 
-The demo does not send packets, automate input, expose hidden information, alter game mechanics, or change server state.
+## HTML-презентация
+
+Демонстрация визуального стиля находится в [`docs/demo.html`](demo.html). Откройте файл в браузере или запустите локальный сервер:
+
+```bash
+python3 -m http.server 8080 --directory docs
+```
+
+После этого откройте http://localhost:8080/demo.html. Презентация полностью работает в браузере и не требует Minecraft.
+
+## Minecraft-мод
+
+Меню мода открывается клавишей **Right Shift**. В нём находятся клиентские переключатели визуальных эффектов и игровое Demo Mode. Мод не отправляет дополнительные пакеты, не автоматизирует игру и не меняет серверное состояние.
