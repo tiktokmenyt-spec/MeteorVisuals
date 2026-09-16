@@ -6,7 +6,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
 import java.util.ArrayDeque;
+import java.util.Locale;
 
 public final class LegalRwHelperModule {
     private static final ArrayDeque<Notice> NOTICES = new ArrayDeque<>();
@@ -15,8 +17,9 @@ public final class LegalRwHelperModule {
 
     public static void initialize() {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
+            if (!VisualConfig.notifications) return;
             String text = message.getString();
-            String value = text.toLowerCase(java.util.Locale.ROOT);
+            String value = text.toLowerCase(Locale.ROOT);
             if (value.contains("dynamic") || value.contains("toxic waste") || value.contains("токсич") || value.contains("ивент")) {
                 synchronized (NOTICES) { NOTICES.addLast(new Notice(text, System.currentTimeMillis() + 6000)); }
             }
@@ -25,6 +28,7 @@ public final class LegalRwHelperModule {
     }
 
     private static void render(DrawContext context) {
+        if (!VisualConfig.enabled || !VisualConfig.notifications) return;
         MinecraftClient client = MinecraftClient.getInstance();
         long now = System.currentTimeMillis();
         synchronized (NOTICES) {

@@ -1,0 +1,10 @@
+{
+  "language.meteorvisuals.right_shift": "Open Meteor Visuals menu",
+  "key.meteorvisuals.open_menu": "Open visual menu",
+  "category.meteorvisuals": "Meteor Visuals",
+  "screen.meteorvisuals.title": "Meteor Visuals",
+  "option.meteorvisuals.enabled": "Visuals enabled",
+  "option.meteorvisuals.arrow_trails": "Arrow trails",
+  "option.meteorvisuals.notifications": "Server notifications",
+  "option.meteorvisuals.overlay": "Status overlay"
+}
