@@ -2,6 +2,7 @@ package dev.meteorvisuals;
 
 import dev.meteorvisuals.audio.AudioPulseEngine;
 import dev.meteorvisuals.client.ArrowTrailSystem;
+import dev.meteorvisuals.client.DemoMode;
 import dev.meteorvisuals.client.LegalRwHelperModule;
 import dev.meteorvisuals.client.MeteorKeybinds;
 import dev.meteorvisuals.client.VisualHud;
@@ -18,6 +19,7 @@ public final class MeteorVisualsClient implements ClientModInitializer {
         LegalRwHelperModule.initialize();
         VisualHud.initialize();
         VisualOverlay.initialize();
+        DemoMode.initialize();
         MeteorKeybinds.initialize();
         AudioPulseEngine.start();
     }

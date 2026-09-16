@@ -7,6 +7,7 @@ public final class VisualConfig {
     public static boolean arrowTrails = true;
     public static boolean notifications = true;
     public static boolean overlay = true;
+    public static boolean demoEffects = true;
 
     private VisualConfig() {
     }
